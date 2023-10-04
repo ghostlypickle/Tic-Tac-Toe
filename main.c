@@ -2,27 +2,19 @@
 #include <malloc.h>
 #include <stdbool.h>
 
-void move(char* board, int position, const bool player){
-    if (position < 1 || position > 9) {
-        printf("Invalid position, enter a new one:\n");
-        int new_position;
-        scanf("%u", &new_position);
-        move(board,new_position,player);
+void move(char* board, unsigned short position, const bool player){
+    if(position < 1 || position > 9 || board[position - 1] == 'X' || board[position - 1] == 'O'){
+        do{
+            printf("Invalid position, enter a new one:\n");
+            int new_position;
+            scanf("%u", &new_position);
+            position = new_position;
 
+        } while (position < 1 || position > 9 || board[position] == 'X' || board[position] == 'O');
     }
-
-    --position;
-
-    if (board[position] == 'X' || board[position] == 'O') {
-        printf("Invalid position, enter a new one:\n");
-        int new_position;
-        scanf("%u", &new_position);
-        move(board,new_position,player);
-    }
-
     char symbol = player ? 'X' : 'O';
-    board[position] = symbol;
-    }
+    board[position - 1] = symbol;
+}
 
 void print_board(char* board){
     printf("  %c |  %c | %c\n",board[0],board[1],board[2]);
